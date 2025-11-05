@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  // Use the JavaScript Prisma client generator.
+  // For Prisma v6 the provider should be "prisma-client-js".
+  provider = "prisma-client-js"
+  // Generate into the standard runtime location under node_modules so
+  // `@prisma/client` and the runtime can load the generated client.
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  // Switched to sqlite for local development by default.
+  // If you prefer Postgres or MySQL, set provider to "postgresql" or "mysql"
+  // and set DATABASE_URL accordingly in the .env file.
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  password  String
+  books     Book[]
+}
+
+model Book {
+  id          Int      @id @default(autoincrement())
+  title       String
+  author      String
+  category    String
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+}

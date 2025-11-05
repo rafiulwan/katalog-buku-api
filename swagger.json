@@ -1,0 +1,69 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Katalog Buku API",
+    "version": "1.0.0",
+    "description": "API documentation for Katalog Buku"
+  },
+  "servers": [
+    { "url": "http://localhost:3000" }
+  ],
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "summary": "Register user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "User created" }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "summary": "Login user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "properties": { "email": { "type": "string" }, "password": { "type": "string" } } }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Returns token" } }
+      }
+    },
+    "/api/books": {
+      "get": { "summary": "Get all books", "responses": { "200": { "description": "OK" } } },
+      "post": {
+        "summary": "Create book",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "properties": { "title":{ "type":"string" }, "author":{ "type":"string" }, "category":{ "type":"string" } } }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/api/books/{id}": {
+      "get": { "summary": "Get book by id", "responses": { "200": { "description": "OK" }, "404": { "description": "Not Found" } } },
+      "put": { "summary": "Update book", "responses": { "200": { "description": "Updated" } } },
+      "delete": { "summary": "Delete book", "responses": { "200": { "description": "Deleted" } } }
+    }
+  }
+}
