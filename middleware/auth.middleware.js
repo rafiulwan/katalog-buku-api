@@ -1,7 +1,12 @@
 const jwt = require('jsonwebtoken');
 const { PrismaClient } = require('@prisma/client');
 
-const prisma = new PrismaClient();
+// Prisma client for serverless - use global to avoid connection issues
+const prisma = global.prisma || new PrismaClient();
+
+if (process.env.NODE_ENV !== 'production') {
+  global.prisma = prisma;
+}
 
 const authMiddleware = async (req, res, next) => {
   try {
